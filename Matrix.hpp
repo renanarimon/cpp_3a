@@ -41,8 +41,8 @@ namespace zich{
         Matrix operator--(); // --this
         Matrix operator--(int); // this--
 
-        Matrix operator*(double scalar); // mat = this*scalar
-        Matrix operator*(const Matrix& other); // mat = this*other
+        Matrix operator*(double scalar) const; // mat = this*scalar
+        Matrix operator*(const Matrix& other) const; // mat = this*other
         Matrix operator*=(double scalar); // this = this*scalar
         Matrix operator*=(const Matrix& other); // this = this*other
 

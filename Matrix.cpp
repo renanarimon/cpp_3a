@@ -27,13 +27,10 @@ namespace zich{
         bool Matrix::operator>=(const Matrix& other) const{return true;}
         bool Matrix::operator<=(const Matrix& other) const{return true;}
         bool Matrix::operator==(const Matrix& other) const{
-            if(
+            return(
             this->_col == other._col &&
             this->_row == other._row &&
-            this->_mat == other._mat){
-                return true;
-            }
-            return false;}
+            this->_mat == other._mat);}
         bool Matrix::operator!=(const Matrix& other) const{return true;}
 
         Matrix Matrix::operator++(){return *this;} // prefix
@@ -41,13 +38,13 @@ namespace zich{
         Matrix Matrix::operator--(){return *this;} // prefix
         Matrix Matrix::operator--(int){return *this;} // postfix
 
-        Matrix Matrix::operator*(double scalar){return *this;}
-        Matrix Matrix::operator*(const Matrix& other){return *this;}
+        Matrix Matrix::operator*(double scalar) const{return *this;}
+        Matrix Matrix::operator*(const Matrix& other) const{return *this;}
         Matrix Matrix::operator*=(double scalar){return *this;}
         Matrix Matrix::operator*=(const Matrix& other){return *this;}
 
-        Matrix operator*(double scalar, const Matrix& A){return A;}
-        Matrix operator*=(double scalar, Matrix& A){return A;}
+        Matrix operator*(double scalar, const Matrix& mat){return mat;}
+        Matrix operator*=(double scalar, Matrix& other){return other;}
 
         std::ostream& operator<<(std::ostream& out, const Matrix& mat){
             for(size_t i=0, k=0; i<mat._row; i++){
