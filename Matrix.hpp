@@ -18,7 +18,7 @@ namespace zich{
 
     public:
         Matrix(std::vector<double> mat, int row, int col); //constructor
-        Matrix(); // empty constructor
+        // Matrix(); // empty constructor
         ~Matrix(); //distructor
         Matrix operator+(const Matrix& other); // mat = this+other
         Matrix operator+=(const Matrix& other); // this = this+other
@@ -29,12 +29,12 @@ namespace zich{
         Matrix operator-();// mat = -(this)
 
 
-        bool operator>(const Matrix& other); //this > other --> true
-        bool operator<(const Matrix& other); //this < other --> true
-        bool operator>=(const Matrix& other); //this >= other --> true
-        bool operator<=(const Matrix& other); //this <= other --> true
-        bool operator==(const Matrix& other); //this == other --> true
-        bool operator!=(const Matrix& other); //this != other --> true
+        bool operator>(const Matrix& other) const; //this > other --> true
+        bool operator<(const Matrix& other) const; //this < other --> true
+        bool operator>=(const Matrix& other) const; //this >= other --> true
+        bool operator<=(const Matrix& other) const; //this <= other --> true
+        bool operator==(const Matrix& other) const; //this == other --> true
+        bool operator!=(const Matrix& other) const; //this != other --> true
 
         Matrix operator++(); // ++this
         Matrix operator++(int); // this++
