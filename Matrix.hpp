@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include <vector>
+#include <exception>
 namespace zich{
     class Matrix
     {
@@ -15,10 +16,9 @@ namespace zich{
         friend Matrix operator*(double scalar, const Matrix& mat); //mat2 = scalar*mat1
         friend Matrix operator*=(double scalar, Matrix& other); //mat1 = scalar*mat1
 
-
     public:
         Matrix(std::vector<double> mat, int row, int col); //constructor
-        // Matrix(); // empty constructor
+        Matrix(const Matrix& other); // copy constructor
         ~Matrix(); //distructor
         Matrix operator+(const Matrix& other); // mat = this+other
         Matrix operator+=(const Matrix& other); // this = this+other
@@ -45,6 +45,8 @@ namespace zich{
         Matrix operator*(const Matrix& other) const; // mat = this*other
         Matrix operator*=(double scalar); // this = this*scalar
         Matrix operator*=(const Matrix& other); // this = this*other
+
+        std::vector<std::vector<double>> turnVec2D() const;
 
     };
 

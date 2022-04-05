@@ -12,32 +12,56 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include<ctype.h>
 using namespace std;
 
 #include "Matrix.hpp"
 using namespace zich;
 
 int main() {
-  
-  std::vector<double> identity = {1, 0, 0, 0, 1, 0, 0, 0, 1};
-  std::vector<double> arr = {3, 9, 0, 0, 3, 0, 0, 0, 3};
-  Matrix a{identity, 3, 3};  // constructor taking a vector and a matrix size
-  Matrix c{arr, 3, 3};
-  if(a ==c){
-    cout<<"true\n";
-  }else{
-    cout <<"false\n";
 
-  }
-  cout << a << endl;
+  
+
+  // Matrix mat({}, 0, 0);
+  // cin >> mat;
+  // cout << mat << endl;
+  
+  std::vector<double> identity = {1,2,3,4,5,6};
+  // std::vector<double> arr = {1,2,3,4,5,6};
+  Matrix a{identity, 3, 2};  // constructor taking a vector and a matrix size
+  // Matrix c(arr, 2, 3);
+  // 3*=a;
+
+  // cout << a<<endl;
+  // cout << 3*a <<endl;
+  // std::vector<std::vector<double>> arr2 =a.turnVec2D();
+//   for (size_t i = 0; i < arr2.size(); i++)
+// {
+//     cout << "\n";
+//     for (size_t j = 0; j < arr2[i].size(); j++)
+//     {
+//         cout << arr2[i][j] << " ";
+//     }
+// }
+
+  // cout<< a << endl;
+  // a*=3;
+  // cout<< a << endl;
+  
   /* prints [1 0 0]
             [0 1 0]
             [0 0 1]*/
+  // b -= a;
+  // cout << a << endl;
+  // cout << b << endl;
 
+  // cout << a-a << endl;
   // cout << (-a) << endl;
-  // /* prints [-1 0 0]
-  //           [0 -1 0]
-  //           [0 0 -1]*/
+  // cout << (a) << endl;
+
+  /* prints [-1 0 0]
+            [0 -1 0]
+            [0 0 -1]*/
   // cout << (3*a) << endl;
   // /* prints [3 0 0]
   //           [0 3 0]
