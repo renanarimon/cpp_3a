@@ -5,7 +5,7 @@
 #include <exception>
 namespace zich
 {
-    static void checkInput(std::vector<double> mat, int row, int col)
+    static void checkInput(const std::vector<double>& mat, int row, int col)
     {
         if (row < 0 || col < 0)
         {
@@ -29,7 +29,7 @@ namespace zich
                 break;
             }
         }
-        if (!isprime)
+        if (!isprime && !mat.empty())
         {
             throw std::invalid_argument("arr size can't be prime");
         }
@@ -131,12 +131,6 @@ namespace zich
         return Matrix(v, this->_row, this->_col);
     }
 
-    static void checkCmp(const Matrix &origin, const Matrix &other){
-        if(origin.getRow() != other.getRow() || origin.getCol() != other.getCol()){
-            throw std::invalid_argument("can't compare matrix with diff size");
-        }
-    }
-
     bool Matrix::operator>(const Matrix &other) const
     {
         return std::accumulate(this->_mat.begin(), this->_mat.end(), 0.0) > std::accumulate(other._mat.begin(), other._mat.end(), 0.0);
@@ -159,7 +153,9 @@ namespace zich
 
     bool Matrix::operator==(const Matrix &other) const
     {
-        checkCmp(*this, other);
+        if(this->_row != other._row || this->_row != other._row){
+            return false;
+        }
         return (
             this->_col == other._col &&
             this->_row == other._row &&
@@ -331,24 +327,24 @@ namespace zich
     }
     std::istream &operator>>(std::istream &in, Matrix &mat)
     {
-        // const int cinTerminator = -1;
-        std::cout << "enter row: \n";
-        in >> mat._row;
-        std::cout << "enter col: \n";
-        in >> mat._col;
-        mat._mat.resize((size_t)(mat._row * mat._col));
-        std::cout << "enter matrix: \n";
+        // // const int cinTerminator = -1;
+        // std::cout << "enter row: \n";
+        // in >> mat._row;
+        // std::cout << "enter col: \n";
+        // in >> mat._col;
+        // mat._mat.resize((size_t)(mat._row * mat._col));
+        // std::cout << "enter matrix: \n";
 
-        std::string st;
-        getline(in, st);
-        double num = 0;
-        for (size_t i = 0; i < st.length(); i++)
-        {
-            if (st.at(i))
-            {
-                /* code */
-            }
-        }
+        // std::string st;
+        // getline(in, st);
+        // double num = 0;
+        // for (size_t i = 0; i < st.length(); i++)
+        // {
+        //     if (st.at(i))
+        //     {
+        //         /* code */
+        //     }
+        // }
 
         // while (in >> num || !in.eof())
         // {
