@@ -5,18 +5,21 @@
 #include <exception>
 namespace zich
 {
-    static bool checkInput(std::vector<double> mat, int row, int col)
+    static void checkInput(std::vector<double> mat, int row, int col)
     {
         if (row < 0 || col < 0)
         {
             throw std::invalid_argument("matrix size must be positive");
-            return false;
         }
         if (mat.size() != row * col)
         {
+            // std::cout << "arr size: " << mat.size() << "row*col: " << row * col<<std::endl;
             throw std::invalid_argument("matrix size dosen't match col*row");
-            return false;
         }
+        // if(col == NULL || row==NULL || mat.empty()){
+        //     throw std::invalid_argument("null pointers");
+
+        // }
         bool isprime = false;
         for (size_t j = 2; j <= mat.size() / 2; ++j)
         {
@@ -26,23 +29,21 @@ namespace zich
                 break;
             }
         }
-        if(!isprime){
+        if (!isprime)
+        {
             throw std::invalid_argument("arr size can't be prime");
-            return false;
         }
-        return true;
     }
 
     Matrix::Matrix(std::vector<double> mat, int row = 1, int col = 1)
     {
-        if (checkInput(mat, row, col))
-        {
-            std::vector<double> v;
-            copy(mat.begin(), mat.end(), back_inserter(v));
-            this->_mat = v;
-            this->_row = row;
-            this->_col = col;
-        }
+        checkInput(mat, row, col);
+        std::vector<double> v;
+        copy(mat.begin(), mat.end(), back_inserter(v));
+        this->_mat = v;
+        this->_row = row;
+        this->_col = col;
+        // std::cout << "create" << *this << std::endl;
     }
 
     Matrix::Matrix(const Matrix &other)
@@ -54,8 +55,19 @@ namespace zich
         this->_col = other._col;
     }
     Matrix::~Matrix() {}
+
+    // math_operators
+    static void checkMath(const Matrix &origin, const Matrix &other)
+    {
+        if (origin.getRow() != other.getRow() || origin.getCol() != other.getCol())
+        {
+            throw std::invalid_argument("math operators allow only on equal size matrixs");
+        }
+    }
+
     Matrix Matrix::operator+(const Matrix &other)
     {
+        checkMath(*this, other);
         std::vector<double> v;
         for (size_t i = 0; i < (this->_col * this->_row); i++)
         {
@@ -66,6 +78,7 @@ namespace zich
     }
     Matrix Matrix::operator+=(const Matrix &other)
     {
+        checkMath(*this, other);
         for (size_t i = 0; i < (this->_col * this->_row); i++)
         {
             this->_mat[i] += other._mat[i];
@@ -80,6 +93,7 @@ namespace zich
 
     Matrix Matrix::operator-(const Matrix &other)
     {
+        checkMath(*this, other);
         std::vector<double> v;
         for (size_t i = 0; i < (this->_col * this->_row); i++)
         {
@@ -90,6 +104,7 @@ namespace zich
     }
     Matrix Matrix::operator-=(const Matrix &other)
     {
+        checkMath(*this, other);
         for (size_t i = 0; i < (this->_col * this->_row); i++)
         {
             this->_mat[i] -= other._mat[i];
@@ -116,6 +131,12 @@ namespace zich
         return Matrix(v, this->_row, this->_col);
     }
 
+    static void checkCmp(const Matrix &origin, const Matrix &other){
+        if(origin.getRow() != other.getRow() || origin.getCol() != other.getCol()){
+            throw std::invalid_argument("can't compare matrix with diff size");
+        }
+    }
+
     bool Matrix::operator>(const Matrix &other) const
     {
         return std::accumulate(this->_mat.begin(), this->_mat.end(), 0.0) > std::accumulate(other._mat.begin(), other._mat.end(), 0.0);
@@ -128,16 +149,17 @@ namespace zich
 
     bool Matrix::operator>=(const Matrix &other) const
     {
-        return *this > other || *this == other;
+        return std::accumulate(this->_mat.begin(), this->_mat.end(), 0.0) >= std::accumulate(other._mat.begin(), other._mat.end(), 0.0);
     }
 
     bool Matrix::operator<=(const Matrix &other) const
     {
-        return *this < other || *this == other;
+        return std::accumulate(this->_mat.begin(), this->_mat.end(), 0.0) <= std::accumulate(other._mat.begin(), other._mat.end(), 0.0);
     }
 
     bool Matrix::operator==(const Matrix &other) const
     {
+        checkCmp(*this, other);
         return (
             this->_col == other._col &&
             this->_row == other._row &&
@@ -177,6 +199,12 @@ namespace zich
         return tmp;
     }
 
+    static void checkMull(const Matrix& origin, const Matrix& other){
+        if(origin.getCol() != other.getRow()){
+            throw std::invalid_argument("m*n x k*l: mull is ilegall if   n != k");
+        }
+    }
+
     Matrix Matrix::operator*(double scalar) const
     {
         std::vector<double> v;
@@ -206,6 +234,7 @@ namespace zich
 
     Matrix Matrix::operator*(const Matrix &other) const
     {
+        checkMull(*this, other);
         size_t row = (size_t)this->_row;
         size_t col = (size_t)other._col;
         std::vector<std::vector<double>> v1 = this->turnVec2D();
@@ -251,6 +280,7 @@ namespace zich
 
     Matrix Matrix::operator*=(const Matrix &other)
     {
+        checkMull(*this, other);
         Matrix tmp = (*this) * other;
         this->_mat.resize(tmp._mat.size());
         for (size_t i = 0; i < tmp._mat.size(); i++)

@@ -20,6 +20,11 @@ namespace zich{
         Matrix(std::vector<double> mat, int row, int col); //constructor
         Matrix(const Matrix& other); // copy constructor
         ~Matrix(); //distructor
+
+        int getRow()const{return this->_row;}
+        int getCol()const{return this->_col;}
+        std::vector<double> getMat()const{return this->_mat;}
+
         Matrix operator+(const Matrix& other); // mat = this+other
         Matrix operator+=(const Matrix& other); // this = this+other
         Matrix operator+(); // this = +(this)
